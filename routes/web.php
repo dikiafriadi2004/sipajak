@@ -48,7 +48,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/teguran/{id}', 'showTeguran')->name('laporan.restoran.teguran.show');
             Route::put('/teguran/{id}', 'teguran')->name('laporan.restoran.teguran');
 
-            Route::post('download/surat/pemberitahuan/{id}', 'downloadsuratpemberitahuan')->name('laporan.restoran.teguran.download');
+            // TAMBAHKAN {id} DI AKHIR UNTUK MEMBERITAHU BAHWA URL TADI MENGIRIM DATA BERDASARKAN ID, JADI DATA ID AKAN DI KIRIM KE FUNCTION downloadPemberitahuan DI CONTROLLER
+            Route::get('download/surat/pemberitahuan/{id}', 'downloadPemberitahuan')->name('laporan.restoran.pemberitahuan.download');
+            Route::get('download/surat/teguran/{id}', 'downloadTeguran')->name('laporan.restoran.teguran.download');
         });
 });
 

@@ -47,9 +47,10 @@
             font-weight: 500;
             padding: 6px 12px;
             border-radius: 8px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Efek shadow */
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            /* Efek shadow */
         }
-    
+
         .tooltip-arrow {
             border-top-color: #000000 !important;
         }
@@ -128,11 +129,6 @@
     </div>
     <!-- / Layout wrapper -->
 
-    <div class="buy-now">
-        <a href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/" target="_blank"
-            class="btn btn-danger btn-buy-now">Upgrade to Pro</a>
-    </div>
-
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
@@ -156,18 +152,21 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script>
         // TOOLTIPS
-        $(document).ready(function () {
-            $('[data-tooltip]').each(function () {
+        $(document).ready(function() {
+            $('[data-tooltip]').each(function() {
                 var tooltipText = $(this).attr('data-tooltip');
                 $(this).tooltip({
                     title: tooltipText,
                     placement: 'top',
                     animation: true,
-                    delay: { "show": 200, "hide": 100 }
+                    delay: {
+                        "show": 200,
+                        "hide": 100
+                    }
                 });
             });
 
-            $('.custom-tooltip').on('click', function () {
+            $('.custom-tooltip').on('click', function() {
                 var targetModal = $(this).attr('data-bs-target');
                 $(targetModal).modal('show');
             });

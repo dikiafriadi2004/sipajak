@@ -1,4 +1,5 @@
 <table class="table" id="laporan-table">
+
     <thead class="bg-light bg-opacity-50">
         <tr>
             <th class="" style="width: 5%">No</th>
@@ -16,6 +17,7 @@
             $no = ($laporan->currentPage() - 1) * $laporan->perPage() + 1;
         @endphp
         @foreach ($laporan as $item)
+            {{-- @dd($item->pajak_restoran_id) --}}
             <tr>
                 <td>{{ $no++ }}</td>
                 <td>{{ $item->bulan }}</td>
@@ -37,13 +39,10 @@
                 </td>
                 <td style="text-align:center;">
                     @if ($item->tgl_surat_pemberitahuan != null)
-                    <form action="{{ route('laporan.restoran.teguran.download', $item->id) }}" method="POST">
-                        @include('surat.restoran.download-surat-pemberitahuan')
-                        <a href="{{ route('laporan.restoran.teguran.download', $item->id) }}" class="badge rounded-pill bg-success p-2" style="text-decoration: none"
-                            target="_blank" data-bs-toggle="tooltip" title="Download Surat Pemberitahuan">
-                            Download
-                        </a>
-                    </form>
+                    {{-- INI MENGIRIM DATA DENGAN URL MAS, JADI TIDAK PERLU FORM CUKUP SERTAKAN ['id'=> $item->id] SEBAGAI INDIKATOR DATA MANA YANG AKAN DI AMBIL. SAYA INGIN MENGAMBLI DATA LAPORAN BERDASAKRAN ID MEREKA UNTUK DI CETAK --}}
+                    <a href="{{ route('laporan.restoran.pemberitahuan.download', ['id'=> $item->id]) }}" class="badge rounded-pill bg-success p-2" style="text-decoration: none" target="_blank" data-bs-toggle="tooltip" title="Download Surat Pemberitahuan">
+                        Download
+                    </a>
                     @else
                         <div class="badge rounded-pill text-secondary p-2 ">
                             Tidak Ada Surat
@@ -52,10 +51,9 @@
                 </td>
                 <td style="text-align:center;">
                     @if ($item->tgl_surat_teguran != null)
-                        <a href="" class="badge rounded-pill bg-success p-2" style="text-decoration: none"
-                            target="_blank" data-bs-toggle="tooltip" title="Download Surat Teguran">
-                            Download
-                        </a>
+                    <a href="{{ route('laporan.restoran.teguran.download', ['id'=> $item->id]) }}" class="badge rounded-pill bg-success p-2" style="text-decoration: none" target="_blank" data-bs-toggle="tooltip" title="Download Surat Teguran">
+                        Download
+                    </a>
                     @else
                         <div class="badge rounded-pill text-secondary p-2">
                             Tidak Ada Surat

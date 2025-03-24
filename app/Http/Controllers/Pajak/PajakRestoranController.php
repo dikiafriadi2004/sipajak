@@ -81,14 +81,14 @@ class PajakRestoranController extends Controller
             return response()->json(['success' => false]);
         }
     }
-    
+
     public function update(Request $request, $id)
     {
         $data = PajakRestoran::find($id);
         if (!$data) {
             return response()->json(['success' => false]);
         }
-    
+
         $data->update([
             'npwpd' => $request->npwpd,
             'nama_pemilik' => $request->nama_pemilik,
@@ -96,10 +96,10 @@ class PajakRestoranController extends Controller
             'no_hp' => $request->no_hp,
             'alamat_usaha' => $request->alamat_usaha,
         ]);
-    
+
         return response()->json(['success' => true]);
     }
-    
+
     public function show($id)
     {
         $data['pajak'] = PajakRestoran::find($id);

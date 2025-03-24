@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('css')
-    
+
 @endpush
 
 @section('content')
@@ -21,7 +21,7 @@
                     </h2>
                     <h4 class="fw-bold">NPWPD: {{ $pajak->npwpd }}</h4>
                 </div>
-                
+
                 <div class="mt-4">
                     Alamat : {{ $pajak->alamat_usaha }}
                     <br>
@@ -54,7 +54,7 @@
                             <option value="{{ $year }}">{{ $year }}</option>
                         @endfor
                     </select>
-                    
+
                     <a href="#" class="btn btn-sm btn-primary btn-tooltips"
                         data-bs-toggle="modal" data-bs-target="#modalTambah"
                         data-bs-original-title="Tambah Laporan Pajak ">
@@ -63,9 +63,9 @@
                 </div>
 
                 <div class="table-responsive table-borderless mt-3" id="Datalaporan" data-id="{{ $pajak->id }}">
-                    
+
                 </div>
-    
+
                 {{-- PAGINATE --}}
                 <div class="d-flex justify-content-end mt-3">
                     <nav aria-label="Page navigation">
@@ -78,7 +78,7 @@
                                 <a class="page-link" href="#" data-page="{{ $laporan->currentPage() - 1 }}">Previous</a>
                             </li>
                             @endif
-                
+
                             {{-- Halaman Pertama (Selalu Ditampilkan) --}}
                             @if ($laporan->currentPage() > 2)
                             <li class="page-item">
@@ -88,14 +88,14 @@
                                 <li class="page-item disabled"><a class="page-link">...</a></li>
                             @endif
                             @endif
-                
+
                             {{-- Halaman Sebelum, Saat Ini, dan Sesudah --}}
                             @for ($i = max(1, $laporan->currentPage() - 1); $i <= min($laporan->lastPage(), $laporan->currentPage() + 1); $i++)
                                 <li class="page-item {{ $laporan->currentPage() == $i ? 'active' : '' }}">
                                 <a class="page-link" href="#" data-page="{{ $i }}">{{ $i }}</a>
                                 </li>
                             @endfor
-                
+
                             {{-- Halaman Terakhir (Selalu Ditampilkan) --}}
                             @if ($laporan->currentPage() < $laporan->lastPage() - 1)
                                 @if ($laporan->currentPage() < $laporan->lastPage() - 2)
@@ -105,7 +105,7 @@
                                 <a class="page-link" href="#" data-page="{{ $laporan->lastPage() }}">{{ $laporan->lastPage() }}</a>
                                 </li>
                             @endif
-                
+
                             {{-- Tombol Next --}}
                             @if ($laporan->hasMorePages())
                                 <li class="page-item">
@@ -117,7 +117,7 @@
                         </ul>
                     </nav>
                 </div>
-    
+
             </div> <!-- end card body -->
         </div> <!-- end card -->
     </div>
@@ -150,7 +150,7 @@
     // PAGINATION
     $(document).on("click", ".pagination a", function (event) {
         event.preventDefault();
-        
+
         let page = $(this).data("page"); // Ambil nomor halaman dari href
         let id = $("#Datalaporan").data("id"); // Ambil ID restoran
 
@@ -169,7 +169,7 @@
         // Tangkap klik pada tombol dengan class btn-tooltips
         $('.btn-tooltips').on('click', function () {
             let id = $(this).data('id'); // Ambil data-id dari tombol yang diklik
-            
+
             // Set ID ke dalam modal sebelum modal muncul
             $('#modalPemberitahuan .modal-body').html('ID: ' + id);
         });
@@ -187,7 +187,7 @@
             let bulan = $('#filterBulan').val();
             let tahun = $('#filterTahun').val();
             let id = $("#Datalaporan").data("id");
-            
+
             $.ajax({
                 url: "{{ route('laporan.restoran.filter', ':id') }}".replace(':id', id),
                 method: "GET",
@@ -277,7 +277,7 @@
         let id = $(this).data('id');
         $('#pemberitahuanId').val(id);
         $('#displayId').text(id); // Tampilkan ID di modal
-        
+
         // Ambil data berdasarkan ID (AJAX GET)
         $.ajax({
             url: "{{ route('laporan.restoran.pemberitahuan.show', '') }}/" + id,
@@ -353,7 +353,7 @@
     // Submit form edit dengan metode PUT
     $('#formEditTeguran').on('submit', function (e) {  // Nama form harus benar
         e.preventDefault();
-        
+
         let id = $('#teguranId').val(); // Gunakan nama ID yang benar
         let tgl_surat_teguran = $('#tgl_surat_teguran').val();
 
