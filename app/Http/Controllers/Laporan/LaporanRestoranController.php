@@ -150,48 +150,10 @@ class LaporanRestoranController extends Controller
     }
 
     // Download Surat Pemberitahuan dan Teguran
-    public function downloadsuratpemberitahuan(Request $request, $id)
-    {
-        $pajakrestoran = PajakRestoran::find($id);
-        $laporanpajakrestoran = LaporanRestoran::find($id);
-
-        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('surat/restoran/surat_pemberitahuan.docx', true);
-
-        $nama_pemilik = $request->nama_pemilik;
-        $nama_usaha = $request->nama_usaha;
-        $alamat_usaha = $request->alamat_usaha;
-        $tgl_surat_pemberitahuan = $laporanpajakrestoran->tgl_surat_pemberitahuan;
-
-        $templateProcessor->setValues(
-            [
-                'nama_pemilik' => $nama_pemilik,
-                'nama_usaha' => $nama_usaha,
-                'alamat_usaha' => $alamat_usaha,
-                'tgl_surat_pemberitahuan' => $tgl_surat_pemberitahuan
-            ]
-        );
-
-        $pathToSave = $nama_pemilik . '_' . $tgl_surat_pemberitahuan . '_' . 'surat_pemberitahuan.docx';
-        $templateProcessor->saveAs($pathToSave);
-
-        header("Expires: Mon, 1 Apr 1974 05:00:00 GMT");
-        header("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
-        header("Cache-Control: no-cache, must-revalidate");
-        header("Pragma: no-cache");
-
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachement;filename="' . $pathToSave . '"');
-
-        readfile($pathToSave);
-        unlink($pathToSave);
-
-        return view('surat.restoran.download-surat-pemberitahuan', compact('pajakrestoran', 'laporanpajakrestoran'));
-    }
 
     // DI FUCNTION BERIKAN ($id) UNTUK MENANGKAP DATA ID YANG DIKIRIM TADI
     public function downloadPemberitahuan($id) {
-        // INI KODE UNTUK MEMBAUT QUERY RELASI MAS. DISINI SAYA MENGAMBIL DATA laporan_pajak_restoran DAN SAYA BERIKAN ALIAR lpr (ALIAS AGAR PENULISAN LEBIH SEDIKIR)
+        // INI KODE UNTUK MEMBAUT QUERY RELASI MAS. DISINI SAYA MENGAMBIL DATA laporan_pajak_restoran DAN SAYA BERIKAN ALIAS lpr (ALIAS AGAR PENULISAN LEBIH SEDIKIT)
         $data = DB::table('laporan_pajak_restoran as lpr')
         // INI RELASINYA MAS, MEMAKAI LEFT JOIN UNTUK MENYAMBUNGKAN pajak_restoran KOLOM id DENGAN laporan_pajak_restoran KOLOM pajak_restoran_id
             ->leftJoin('pajak_restoran as pr', 'pr.id', '=', 'lpr.pajak_restoran_id')
@@ -206,7 +168,8 @@ class LaporanRestoranController extends Controller
                 'pr.nama_usaha',
                 'pr.alamat_usaha',
                 // SAYA MENGAMBIL DARI TABEL laporan_pajak_restoran (SAYA ALIAS SEBAGAI lpr) KOLOM tgl_surat_pemberitahuan
-                'lpr.tgl_surat_pemberitahuan'
+                'lpr.tgl_surat_pemberitahuan',
+                'lpr.jumlah_setoran'
                 // JIKA INGIN MENAMBAHKAN DATA BARU TINGGAL KETIK NAMA_ALIAS.KOLOM, JANGAN LUPA BERI KOMA DI ATAS DAHULU
             ])
         ->first();
@@ -217,13 +180,15 @@ class LaporanRestoranController extends Controller
         $nama_usaha = $data->nama_usaha;
         $alamat_usaha = $data->alamat_usaha;
         $tgl_surat_pemberitahuan = $data->tgl_surat_pemberitahuan;
+        $jumlah_setoran = $data->jumlah_setoran;
 
         $templateProcessor->setValues(
             [
                 'nama_pemilik' => $nama_pemilik,
                 'nama_usaha' => $nama_usaha,
                 'alamat_usaha' => $alamat_usaha,
-                'tgl_surat_pemberitahuan' => $tgl_surat_pemberitahuan
+                'tgl_surat_pemberitahuan' => $tgl_surat_pemberitahuan,
+                'jumlah_setoran' => $jumlah_setoran,
             ]
         );
 
