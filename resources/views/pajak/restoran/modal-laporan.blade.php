@@ -40,7 +40,7 @@
                     </div>
                     <div class="col">
                         <label for="setoran" class="form-label text-capitalize">setoran</label>
-                        <input type="text" class="form-control form-control-sm" id="setoran" name="setoran" required>
+                        <input type="text" class="form-control form-control-sm" id="setoran" maxlength="12" name="setoran" required>
                     </div>
                 </div>
                 <div class="mb-3">

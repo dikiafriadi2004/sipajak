@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Laporan\LaporanHiburanController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Laporan\LaporanRestoran;
 use App\Http\Controllers\ProfileController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\Pajak\PajakHotelController;
 use App\Http\Controllers\Pajak\PajakRestoranController;
 use App\Http\Controllers\Laporan\LaporanHotelController;
 use App\Http\Controllers\Laporan\LaporanRestoranController;
+use App\Http\Controllers\Pajak\PajakHiburanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -88,6 +90,40 @@ Route::middleware('auth')->group(function () {
             // TAMBAHKAN {id} DI AKHIR UNTUK MEMBERITAHU BAHWA URL TADI MENGIRIM DATA BERDASARKAN ID, JADI DATA ID AKAN DI KIRIM KE FUNCTION downloadPemberitahuan DI CONTROLLER
             Route::get('download/surat/pemberitahuan/{id}', 'downloadPemberitahuan')->name('laporan.hotel.pemberitahuan.download');
             Route::get('download/surat/teguran/{id}', 'downloadTeguran')->name('laporan.hotel.teguran.download');
+        });
+
+        // Pajak Hiburan dan Laporan Hiburan
+        Route::controller(PajakHiburanController::class)
+        ->prefix('pajak/hiburan')
+        ->group(function () {
+            Route::get('/', 'index')->name('pajakhiburan.index');
+            Route::get('/data', 'getData')->name('pajakhiburan.data');
+            Route::get('/filter', 'getfilter')->name('pajakhiburan.filter');
+            Route::get('/detail/{id}', 'show')->name('pajakhiburan.show');
+
+            Route::post('/store', 'store')->name('pajakhiburan.store');
+            Route::delete('/{id}', 'destroy')->name('pajakhiburan.destroy');
+            Route::get('/edit/{id}', 'edit')->name('pajakhiburan.edit');
+            Route::put('/update/{id}', 'update')->name('pajakhiburan.update');
+        });
+
+        Route::controller(LaporanHiburanController::class)
+        ->prefix('pajak/hiburan/laporan/')
+        ->group(function () {
+            Route::get('/{id}', 'index')->name('laporan.hiburan.index');
+            Route::get('/data/{id}', 'getData')->name('laporan.hiburan.data');
+            Route::get('/filter/{id}', 'getfilter')->name('laporan.hiburan.filter');
+
+            Route::post('/store', 'store')->name('laporan.hiburan.store');
+            Route::get('/pemberitahuan/{id}', 'showPemberitahun')->name('laporan.hiburan.pemberitahuan.show');
+            Route::put('/pemberitahuan/{id}', 'pemberitahuan')->name('laporan.hiburan.pemberitahuan');
+
+            Route::get('/teguran/{id}', 'showTeguran')->name('laporan.hiburan.teguran.show');
+            Route::put('/teguran/{id}', 'teguran')->name('laporan.hiburan.teguran');
+
+            // TAMBAHKAN {id} DI AKHIR UNTUK MEMBERITAHU BAHWA URL TADI MENGIRIM DATA BERDASARKAN ID, JADI DATA ID AKAN DI KIRIM KE FUNCTION downloadPemberitahuan DI CONTROLLER
+            Route::get('download/surat/pemberitahuan/{id}', 'downloadPemberitahuan')->name('laporan.hiburan.pemberitahuan.download');
+            Route::get('download/surat/teguran/{id}', 'downloadTeguran')->name('laporan.hiburan.teguran.download');
         });
 });
 

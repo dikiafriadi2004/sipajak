@@ -82,5 +82,12 @@
             </a>
         </li>
 
+        <li class="menu-item {{ request()->is('pajak/hiburan*') ? 'active' : '' }}">
+            <a href="{{ route('pajakhiburan.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">Pajak Hiburan</div>
+            </a>
+        </li>
+
     </ul>
 </aside>
